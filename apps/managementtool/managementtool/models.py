@@ -16,8 +16,10 @@ class Location(models.Model):
 class SIMCard(models.Model):
     iccid = models.CharField(max_length=22, unique=True)
     imsi = models.CharField(max_length=15, unique=True)
-    end_date = models.DateField()
-    remaining_volume = models.FloatField(help_text="Fennmaradó adatmennyiség MB-ban")
+    end_date = models.DateField(null=True, blank=True)
+    remaining_volume = models.FloatField(null=True, blank=True, help_text="Fennmaradó adatmennyiség MB-ban")
+    operator = models.CharField(max_length=100, blank=True, default="")
+    country = models.CharField(max_length=100, blank=True, default="")
 
     class Meta:
         verbose_name = "SIM Card"
