@@ -1,10 +1,23 @@
-.PHONY: start dev lint seed purge simulate simulate_local
+.PHONY: start dev stop restart lint seed purge migrate upgrade simulate simulate_local
 
 start:
 	docker compose up
 
 dev:
 	docker compose up --build
+
+stop:
+	docker compose down
+
+restart: stop start
+
+migrate:
+	docker compose exec managementtool python manage.py migrate
+
+upgrade: stop
+	git pull
+	docker compose up --build -d
+	$(MAKE) migrate
 
 lint:
 	cd apps/managementtool && uv run ruff check . && uv run ruff format --check .

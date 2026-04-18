@@ -79,10 +79,16 @@ Az IoT eszközöket az alábbi CoAP paraméterekkel kell beállítani:
 
 ### Makefile parancsok
 
-| Parancs       | Leírás                                                              |
-|---------------|---------------------------------------------------------------------|
-| `make start`  | Elindítja a konténereket (`docker compose up`)                      |
-| `make dev`    | Újrabuildelve indítja el a konténereket (`docker compose up --build`) |
-| `make seed`   | Feltölti az adatbázist a `seed.yml` alapján                         |
-| `make purge`  | Törli az összes konténert és adatot (`docker compose down -v`)      |
-| `make lint`   | Futtatja a `ruff` lintert és formátum-ellenőrzést                   |
+| Parancs              | Leírás                                                                       |
+|----------------------|------------------------------------------------------------------------------|
+| `make start`         | Elindítja a konténereket                                                     |
+| `make stop`          | Leállítja a konténereket                                                     |
+| `make restart`       | Újraindítja a konténereket                                                   |
+| `make dev`           | Újrabuildelve indítja el a konténereket                                      |
+| `make migrate`       | Django migrációkat futtat a futó konténerben                                 |
+| `make upgrade`       | Leáll, `git pull`, újrabuildelve háttérben indít, majd migrál                |
+| `make seed`          | Feltölti az adatbázist a `seed.yml` alapján                                  |
+| `make purge`         | Törli az összes konténert és adatot (`docker compose down -v`)               |
+| `make lint`          | Futtatja a `ruff` lintert és formátum-ellenőrzést                            |
+| `make simulate`      | Szimulált eszközüzenetet küld Docker konténerből (`ARGS` paraméterrel)       |
+| `make simulate_local`| Szimulált eszközüzenetet küld a hostról `localhost:5683`-ra (`ARGS` paraméterrel) |
