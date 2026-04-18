@@ -35,6 +35,22 @@ services:
       sh -c "python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"
 
+  scheduler:
+    build:
+      context: apps/managementtool
+    environment:
+      DB_HOST: mariadb
+      DB_NAME: managementtool
+      DB_USER: managementtool
+      DB_PASSWORD: managementtool
+      SECRET_KEY: change-me-in-production
+      ONENECE_CLIENT_ID: ${ONENECE_CLIENT_ID:-}
+      ONENECE_CLIENT_SECRET: ${ONENECE_CLIENT_SECRET:-}
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    command: python manage.py scheduler
+
   coap:
     build:
       context: apps/coap
