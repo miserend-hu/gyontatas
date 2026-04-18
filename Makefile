@@ -1,4 +1,4 @@
-.PHONY: start dev lint seed purge simulate
+.PHONY: start dev lint seed purge simulate simulate_local
 
 start:
 	docker compose up
@@ -17,3 +17,9 @@ purge:
 
 simulate:
 	docker compose run --rm --build device_simulator python simulator.py $(ARGS)
+
+simulate_local:
+	cd apps/device_simulator && \
+	{ test -d .venv || python3 -m venv .venv; } && \
+	.venv/bin/pip install -q -r requirements.txt && \
+	.venv/bin/python simulator.py --host localhost $(ARGS)
