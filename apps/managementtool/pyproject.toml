@@ -6,7 +6,6 @@ dependencies = [
     "django>=5.1",
     "djangorestframework>=3.15",
     "mysqlclient>=2.2",
-    "aiocoap>=0.4",
     "requests>=2.32",
     "pyyaml>=6.0",
 ]
