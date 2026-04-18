@@ -1,0 +1,21 @@
+[project]
+name = "managementtool"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "django>=5.1",
+    "djangorestframework>=3.15",
+    "mysqlclient>=2.2",
+    "aiocoap>=0.4",
+    "requests>=2.32",
+]
+
+[tool.uv]
+dev-dependencies = ["ruff>=0.4"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]

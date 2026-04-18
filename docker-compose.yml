@@ -1,0 +1,53 @@
+services:
+  mariadb:
+    image: mariadb:11
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: managementtool
+      MARIADB_USER: managementtool
+      MARIADB_PASSWORD: managementtool
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  managementtool:
+    build:
+      context: apps/managementtool
+    environment:
+      DB_HOST: mariadb
+      DB_NAME: managementtool
+      DB_USER: managementtool
+      DB_PASSWORD: managementtool
+      SECRET_KEY: change-me-in-production
+      DEBUG: "True"
+    ports:
+      - "8000:8000"
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+
+  coap:
+    build:
+      context: apps/managementtool
+    environment:
+      DB_HOST: mariadb
+      DB_NAME: managementtool
+      DB_USER: managementtool
+      DB_PASSWORD: managementtool
+      SECRET_KEY: change-me-in-production
+    ports:
+      - "5683:5683/udp"
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    command: python manage.py run_coap_server
+
+volumes:
+  mariadb_data:
