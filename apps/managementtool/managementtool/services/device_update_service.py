@@ -2,10 +2,10 @@ import logging
 
 from django.db.models import QuerySet
 
-from core.models import Device, DeviceUpdate
-from core.processors.factory import PayloadProcessorFactory
-from core.repositories.device_repository import DeviceRepository
-from core.repositories.device_update_repository import DeviceUpdateRepository
+from managementtool.models import Device, DeviceUpdate
+from managementtool.processors.factory import PayloadProcessorFactory
+from managementtool.repositories.device_repository import DeviceRepository
+from managementtool.repositories.device_update_repository import DeviceUpdateRepository
 
 logger = logging.getLogger(__name__)
 

@@ -2,7 +2,7 @@ import yaml
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand, CommandError
 
-from core.models import Device, Location, SIMCard
+from managementtool.models import Device, Location, SIMCard
 
 User = get_user_model()
 

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from core.models import DeviceUpdate
+from managementtool.models import DeviceUpdate
 
 
 class DeviceUpdateSerializer(serializers.ModelSerializer):

@@ -1,6 +1,6 @@
 from django.db.models import QuerySet
 
-from core.models import Device
+from managementtool.models import Device
 
 
 class DeviceRepository:

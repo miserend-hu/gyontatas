@@ -45,7 +45,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.PROTECT,
                         related_name="devices",
-                        to="core.location",
+                        to="managementtool.location",
                     ),
                 ),
                 (
@@ -53,7 +53,7 @@ class Migration(migrations.Migration):
                     models.OneToOneField(
                         on_delete=django.db.models.deletion.PROTECT,
                         related_name="device",
-                        to="core.simcard",
+                        to="managementtool.simcard",
                     ),
                 ),
             ],
@@ -92,7 +92,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="updates",
-                        to="core.device",
+                        to="managementtool.device",
                     ),
                 ),
                 (
@@ -100,7 +100,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="updates",
-                        to="core.location",
+                        to="managementtool.location",
                     ),
                 ),
             ],

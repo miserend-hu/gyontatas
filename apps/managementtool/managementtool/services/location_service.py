@@ -1,7 +1,7 @@
 from django.db.models import QuerySet
 
-from core.models import Location
-from core.repositories.location_repository import LocationRepository
+from managementtool.models import Location
+from managementtool.repositories.location_repository import LocationRepository
 
 
 class LocationService:

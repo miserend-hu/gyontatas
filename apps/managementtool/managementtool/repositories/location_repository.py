@@ -1,6 +1,6 @@
 from django.db.models import QuerySet
 
-from core.models import Location
+from managementtool.models import Location
 
 
 class LocationRepository:

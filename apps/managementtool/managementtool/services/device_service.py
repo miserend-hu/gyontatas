@@ -1,7 +1,7 @@
 from django.db.models import QuerySet
 
-from core.models import Device
-from core.repositories.device_repository import DeviceRepository
+from managementtool.models import Device
+from managementtool.repositories.device_repository import DeviceRepository
 
 
 class DeviceService:

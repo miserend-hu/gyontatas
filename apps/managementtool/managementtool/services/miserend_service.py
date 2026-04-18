@@ -1,8 +1,8 @@
 import uuid
 from datetime import datetime, timezone
 
-from core.models import Device, Location
-from core.repositories.miserend_repository import MiserendLorawanPayload, MiserendRepository
+from managementtool.models import Device, Location
+from managementtool.repositories.miserend_repository import MiserendLorawanPayload, MiserendRepository
 
 
 class MiserendService:

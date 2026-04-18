@@ -6,14 +6,14 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from core.models import DeviceUpdate
-from core.processors.factory import PayloadProcessorFactory
-from core.repositories.device_repository import DeviceRepository
-from core.repositories.device_update_repository import DeviceUpdateRepository
-from core.repositories.miserend_repository import MiserendRepository
-from core.serializers import DeviceUpdateSerializer
-from core.services.device_update_service import DeviceUpdateService
-from core.services.miserend_service import MiserendService
+from managementtool.models import DeviceUpdate
+from managementtool.processors.factory import PayloadProcessorFactory
+from managementtool.repositories.device_repository import DeviceRepository
+from managementtool.repositories.device_update_repository import DeviceUpdateRepository
+from managementtool.repositories.miserend_repository import MiserendRepository
+from managementtool.serializers import DeviceUpdateSerializer
+from managementtool.services.device_update_service import DeviceUpdateService
+from managementtool.services.miserend_service import MiserendService
 
 logger = logging.getLogger(__name__)
 

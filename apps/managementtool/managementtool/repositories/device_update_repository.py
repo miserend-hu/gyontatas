@@ -1,6 +1,6 @@
 from django.db.models import QuerySet
 
-from core.models import DeviceUpdate
+from managementtool.models import DeviceUpdate
 
 
 class DeviceUpdateRepository:

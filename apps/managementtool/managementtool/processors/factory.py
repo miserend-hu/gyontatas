@@ -1,6 +1,6 @@
-from core.processors.base import PayloadProcessor
-from core.processors.type1 import Type1PayloadProcessor
-from core.processors.type2 import Type2PayloadProcessor
+from managementtool.processors.base import PayloadProcessor
+from managementtool.processors.type1 import Type1PayloadProcessor
+from managementtool.processors.type2 import Type2PayloadProcessor
 
 
 class PayloadProcessorFactory:

@@ -1,21 +1,6 @@
 from django.contrib import admin
 
-from core.models import Device, DeviceUpdate, Location, SIMCard
-
-
-class SIMCardInline(admin.StackedInline):
-    model = SIMCard
-    fk_name = None  # OneToOne, no FK on SIMCard side
-    extra = 0
-    can_delete = False
-
-    def get_readonly_fields(self, request, obj=None):
-        if obj:
-            return [f.name for f in SIMCard._meta.fields]
-        return []
-
-    def has_add_permission(self, request, obj=None):
-        return False
+from managementtool.models import Device, DeviceUpdate, Location, SIMCard
 
 
 class DeviceUpdateInline(admin.TabularInline):

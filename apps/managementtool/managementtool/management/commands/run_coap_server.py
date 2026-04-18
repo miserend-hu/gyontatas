@@ -7,12 +7,12 @@ import aiocoap.resource as resource
 from asgiref.sync import sync_to_async
 from django.core.management.base import BaseCommand
 
-from core.processors.factory import PayloadProcessorFactory
-from core.repositories.device_repository import DeviceRepository
-from core.repositories.device_update_repository import DeviceUpdateRepository
-from core.repositories.miserend_repository import MiserendRepository
-from core.services.device_update_service import DeviceUpdateService
-from core.services.miserend_service import MiserendService
+from managementtool.processors.factory import PayloadProcessorFactory
+from managementtool.repositories.device_repository import DeviceRepository
+from managementtool.repositories.device_update_repository import DeviceUpdateRepository
+from managementtool.repositories.miserend_repository import MiserendRepository
+from managementtool.services.device_update_service import DeviceUpdateService
+from managementtool.services.miserend_service import MiserendService
 
 logger = logging.getLogger(__name__)
 

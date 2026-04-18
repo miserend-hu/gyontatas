@@ -1,7 +1,7 @@
 import struct
 from datetime import datetime, timezone
 
-from core.processors.base import PayloadProcessor
+from managementtool.processors.base import PayloadProcessor
 
 MIN_LENGTH = 36
 

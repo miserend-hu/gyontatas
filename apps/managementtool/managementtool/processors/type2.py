@@ -1,4 +1,4 @@
-from core.processors.base import PayloadProcessor
+from managementtool.processors.base import PayloadProcessor
 
 
 class Type2PayloadProcessor(PayloadProcessor):

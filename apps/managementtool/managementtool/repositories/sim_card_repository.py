@@ -1,4 +1,4 @@
-from core.models import SIMCard
+from managementtool.models import SIMCard
 
 
 class SIMCardRepository:
