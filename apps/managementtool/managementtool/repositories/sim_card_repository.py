@@ -7,3 +7,5 @@ class SIMCardRepository:
 
     def get_by_device(self, device_id: int) -> SIMCard:
         return SIMCard.objects.get(device__id=device_id)
+
+#fölös komment
