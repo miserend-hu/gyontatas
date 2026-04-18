@@ -1,4 +1,5 @@
 from django.contrib import admin, messages
+from django.db.models import OuterRef, Subquery
 from django.shortcuts import redirect
 from django.urls import path
 
@@ -47,9 +48,38 @@ class SIMCardAdmin(admin.ModelAdmin):
 
 @admin.register(Device)
 class DeviceAdmin(admin.ModelAdmin):
-    list_display = ["imei", "location", "sim_card"]
+    list_display = ["imei", "location", "last_seen", "battery", "signal", "remaining_volume", "end_date"]
     list_select_related = ["location", "sim_card"]
     inlines = [DeviceUpdateInline]
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        latest = DeviceUpdate.objects.filter(device=OuterRef("pk")).order_by("-timestamp")
+        return qs.annotate(
+            _last_seen=Subquery(latest.values("timestamp")[:1]),
+            _last_battery=Subquery(latest.values("battery")[:1]),
+            _last_signal=Subquery(latest.values("signal")[:1]),
+        )
+
+    @admin.display(description="Last seen", ordering="_last_seen")
+    def last_seen(self, obj):
+        return obj._last_seen
+
+    @admin.display(description="Battery (V)", ordering="_last_battery")
+    def battery(self, obj):
+        return obj._last_battery
+
+    @admin.display(description="Signal", ordering="_last_signal")
+    def signal(self, obj):
+        return obj._last_signal
+
+    @admin.display(description="Remaining (MB)", ordering="sim_card__remaining_volume")
+    def remaining_volume(self, obj):
+        return obj.sim_card.remaining_volume
+
+    @admin.display(description="SIM expires", ordering="sim_card__end_date")
+    def end_date(self, obj):
+        return obj.sim_card.end_date
 
 
 @admin.register(DeviceUpdate)
