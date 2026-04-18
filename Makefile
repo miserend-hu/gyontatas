@@ -1,4 +1,4 @@
-.PHONY: start dev lint seed purge
+.PHONY: start dev lint seed purge simulate
 
 start:
 	docker compose up
@@ -14,3 +14,6 @@ seed:
 
 purge:
 	docker compose down -v
+
+simulate:
+	docker compose run --rm device_simulator python simulator.py $(ARGS)

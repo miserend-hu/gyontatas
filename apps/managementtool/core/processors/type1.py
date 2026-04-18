@@ -1,26 +1,53 @@
-import json
+import struct
 from datetime import datetime, timezone
 
 from core.processors.base import PayloadProcessor
 
+MIN_LENGTH = 36
+
 
 class Type1PayloadProcessor(PayloadProcessor):
     def process(self, raw_payload: bytes) -> dict:
-        data = json.loads(raw_payload)
+        if len(raw_payload) < MIN_LENGTH:
+            raise ValueError(
+                f"Type1 payload too short: expected at least {MIN_LENGTH} bytes, got {len(raw_payload)}"
+            )
+
+        imei = _packed_id(raw_payload, 0)
+        imsi = _packed_id(raw_payload, 8)
+        version_product = raw_payload[16]
+        version_code = raw_payload[17]
+        battery_mv = struct.unpack_from(">H", raw_payload, 18)[0]
+        signal = raw_payload[20]
+        interrupt_3 = raw_payload[26]
+        input_3 = raw_payload[27]
+        interrupt_1 = raw_payload[28]
+        input_1 = raw_payload[29]
+        interrupt_2 = raw_payload[30]
+        input_2 = raw_payload[31]
+        time_unix = struct.unpack_from(">I", raw_payload, 32)[0]
+
         return {
             "device_type": "type1",
-            "imei": str(data["IMEI"]),
-            "imsi": str(data["IMSI"]),
-            "version_product": int(data["version_product"]),
-            "version_code": int(data["version_code"]),
-            "battery": int(data["battery"]),
-            "signal": int(data["signal"]),
-            "interrupt_1": int(data["interrupt_1"]),
-            "interrupt_2": int(data["interrupt_2"]),
-            "interrupt_3": int(data["interrupt_3"]),
-            "input_1": int(data["input_1"]),
-            "input_2": int(data["input_2"]),
-            "input_3": int(data["input_3"]),
-            "confession": int(data["confession"]),
-            "timestamp": datetime.fromtimestamp(int(data["time"]), tz=timezone.utc),
+            "imei": imei,
+            "imsi": imsi,
+            "version_product": version_product,
+            "version_code": version_code,
+            "battery": battery_mv / 1000.0,
+            "signal": signal,
+            "interrupt_1": interrupt_1,
+            "interrupt_2": interrupt_2,
+            "interrupt_3": interrupt_3,
+            "input_1": input_1,
+            "input_2": input_2,
+            "input_3": input_3,
+            "confession": input_1 + input_2 + input_3,
+            "timestamp": datetime.fromtimestamp(time_unix, tz=timezone.utc),
         }
+
+
+def _packed_id(data: bytes, start: int) -> str:
+    s = "".join(f"{b:02x}" for b in data[start : start + 8])
+    if s[0].lower() == "f":
+        s = s[1:]
+    return s

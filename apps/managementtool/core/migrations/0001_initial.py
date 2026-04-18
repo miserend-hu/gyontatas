@@ -78,7 +78,7 @@ class Migration(migrations.Migration):
                 ("imsi", models.CharField(blank=True, max_length=15, null=True)),
                 ("version_product", models.IntegerField(blank=True, null=True)),
                 ("version_code", models.IntegerField(blank=True, null=True)),
-                ("battery", models.IntegerField(blank=True, help_text="mV", null=True)),
+                ("battery", models.FloatField(blank=True, help_text="V (battery_mv / 1000)", null=True)),
                 ("signal", models.IntegerField(blank=True, null=True)),
                 ("interrupt_1", models.IntegerField(blank=True, null=True)),
                 ("interrupt_2", models.IntegerField(blank=True, null=True)),

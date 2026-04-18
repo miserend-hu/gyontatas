@@ -65,6 +65,18 @@ http://localhost:8000
 
 Alapértelmezett bejelentkezés a seed után: `root` / `root`
 
+### Eszköz konfiguráció
+
+Az IoT eszközöket az alábbi CoAP paraméterekkel kell beállítani:
+
+| Paraméter | Érték                                 |
+|-----------|---------------------------------------|
+| Protokoll | CoAP (UDP)                            |
+| Szerver   | a szerver domain neve vagy IP-címe    |
+| Port      | `5683`                                |
+| Path      | `/update/type1` vagy `/update/type2`  |
+| Metódus   | `POST`                                |
+
 ### Makefile parancsok
 
 | Parancs       | Leírás                                                              |

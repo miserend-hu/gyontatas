@@ -44,5 +44,13 @@ services:
     depends_on:
       - managementtool
 
+  device_simulator:
+    build:
+      context: apps/device_simulator
+    depends_on:
+      - coap
+    profiles:
+      - simulate
+
 volumes:
   mariadb_data:

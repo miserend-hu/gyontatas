@@ -66,7 +66,7 @@ class DeviceUpdate(models.Model):
     imsi = models.CharField(max_length=15, null=True, blank=True)
     version_product = models.IntegerField(null=True, blank=True)
     version_code = models.IntegerField(null=True, blank=True)
-    battery = models.IntegerField(null=True, blank=True, help_text="mV")
+    battery = models.FloatField(null=True, blank=True, help_text="V (battery_mv / 1000)")
     signal = models.IntegerField(null=True, blank=True)
     interrupt_1 = models.IntegerField(null=True, blank=True)
     interrupt_2 = models.IntegerField(null=True, blank=True)
