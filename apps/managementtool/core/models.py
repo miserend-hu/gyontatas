@@ -28,8 +28,7 @@ class SIMCard(models.Model):
 
 
 class Device(models.Model):
-    name = models.CharField(max_length=255)
-    serial_number = models.CharField(max_length=50, unique=True)
+    imei = models.CharField(max_length=15, unique=True)
     location = models.ForeignKey(
         Location, on_delete=models.PROTECT, related_name="devices"
     )
@@ -42,7 +41,7 @@ class Device(models.Model):
         verbose_name_plural = "Eszközök"
 
     def __str__(self):
-        return self.name
+        return self.imei
 
 
 class DeviceUpdate(models.Model):

@@ -1,4 +1,4 @@
-.PHONY: start dev lint
+.PHONY: start dev lint seed purge
 
 start:
 	docker compose up
@@ -8,3 +8,9 @@ dev:
 
 lint:
 	cd apps/managementtool && uv run ruff check . && uv run ruff format --check .
+
+seed:
+	docker compose exec managementtool python manage.py seed
+
+purge:
+	docker compose down -v

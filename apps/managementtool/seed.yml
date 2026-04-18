@@ -1,0 +1,20 @@
+users:
+  - username: root
+    password: root
+    is_superuser: true
+    is_staff: true
+
+locations:
+  - name: Szent József Jezsuita Templom
+    miserend_id: 1254
+
+sim_cards:
+  - iccid: "8988228066680500280"
+    imsi: "901405180500280"
+    end_date: "2026-12-31"
+    remaining_volume: 500.0
+
+devices:
+  - imei: "868927081504479"
+    location_miserend_id: 1254
+    sim_card_iccid: "8988228066680500280"

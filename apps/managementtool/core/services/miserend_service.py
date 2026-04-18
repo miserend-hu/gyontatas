@@ -20,8 +20,7 @@ class MiserendService:
         now = datetime.now(tz=timezone.utc)
         time_str = now.strftime("%Y-%m-%dT%H:%M:%S.") + f"{now.microsecond // 1000:03d}+00:00"
 
-        # devEui: 16 hex chars derived from serial_number (IMEI zero-padded)
-        dev_eui = device.serial_number.zfill(16)[:16].lower()
+        dev_eui = device.imei.zfill(16)[:16].lower()
 
         payload = MiserendLorawanPayload(
             deduplication_id=str(uuid.uuid4()),

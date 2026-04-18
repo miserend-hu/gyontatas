@@ -44,7 +44,7 @@ class SIMCardAdmin(admin.ModelAdmin):
 
 @admin.register(Device)
 class DeviceAdmin(admin.ModelAdmin):
-    list_display = ["name", "serial_number", "location", "sim_card"]
+    list_display = ["imei", "location", "sim_card"]
     list_select_related = ["location", "sim_card"]
     inlines = [DeviceUpdateInline]
 

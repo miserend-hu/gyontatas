@@ -39,8 +39,7 @@ class Migration(migrations.Migration):
             name="Device",
             fields=[
                 ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
-                ("name", models.CharField(max_length=255)),
-                ("serial_number", models.CharField(max_length=50, unique=True)),
+                ("imei", models.CharField(max_length=15, unique=True)),
                 (
                     "location",
                     models.ForeignKey(

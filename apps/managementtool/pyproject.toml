@@ -8,6 +8,7 @@ dependencies = [
     "mysqlclient>=2.2",
     "aiocoap>=0.4",
     "requests>=2.32",
+    "pyyaml>=6.0",
 ]
 
 [tool.uv]

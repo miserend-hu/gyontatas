@@ -13,5 +13,5 @@ class DeviceRepository:
     def get_by_location(self, location_id: int) -> QuerySet[Device]:
         return Device.objects.filter(location_id=location_id)
 
-    def get_by_serial_number(self, serial_number: str) -> Device:
-        return Device.objects.get(serial_number=serial_number)
+    def get_by_imei(self, imei: str) -> Device:
+        return Device.objects.get(imei=imei)

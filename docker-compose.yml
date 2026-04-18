@@ -35,19 +35,14 @@ services:
 
   coap:
     build:
-      context: apps/managementtool
+      context: apps/coap
     environment:
-      DB_HOST: mariadb
-      DB_NAME: managementtool
-      DB_USER: managementtool
-      DB_PASSWORD: managementtool
-      SECRET_KEY: change-me-in-production
+      DJANGO_HOST: managementtool
+      DJANGO_PORT: "8000"
     ports:
       - "5683:5683/udp"
     depends_on:
-      mariadb:
-        condition: service_healthy
-    command: python manage.py run_coap_server
+      - managementtool
 
 volumes:
   mariadb_data:

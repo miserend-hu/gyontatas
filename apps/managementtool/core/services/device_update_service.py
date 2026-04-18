@@ -46,7 +46,7 @@ class DeviceUpdateService:
             confession=data.get("confession"),
         )
         self.update_repository.create(update)
-        logger.info("Saved DeviceUpdate for device %s (type=%s)", device.serial_number, device_type)
+        logger.info("Saved DeviceUpdate for device %s (type=%s)", device.imei, device_type)
         return update
 
     def list_updates_by_device(self, device_id: int) -> QuerySet[DeviceUpdate]:
@@ -60,5 +60,5 @@ class DeviceUpdateService:
 
     def _get_device(self, device_type: str, data: dict) -> Device:
         if device_type == "type1":
-            return self.device_repository.get_by_serial_number(data["imei"])
+            return self.device_repository.get_by_imei(data["imei"])
         raise ValueError(f"Device lookup not implemented for device_type={device_type!r}")
