@@ -1,5 +1,6 @@
 import logging
 import os
+import time
 
 import requests
 
@@ -16,12 +17,21 @@ class OneNCERepository:
 
     def get_all_sims(self) -> list[dict]:
         url = f"{_BASE_URL}/v2/sims"
-        headers = self._headers()
-        logger.info("GET %s headers=%s", url, headers)
-        resp = requests.get(url, headers=headers, params={"pageSize": 100}, timeout=30)
-        logger.info("GET %s %s response_headers=%s body=%s", url, resp.status_code, dict(resp.headers), resp.text)
-        resp.raise_for_status()
-        return resp.json()
+        result = []
+        page = 0
+        while True:
+            headers = self._headers()
+            logger.info("GET %s page=%s headers=%s", url, page, headers)
+            resp = requests.get(url, headers=headers, params={"pageSize": 100, "pageNumber": page}, timeout=30)
+            logger.info("GET %s %s response_headers=%s body=%s", url, resp.status_code, dict(resp.headers), resp.text)
+            resp.raise_for_status()
+            batch = resp.json()
+            result.extend(batch)
+            if len(batch) < 100:
+                break
+            page += 1
+            time.sleep(0.5)
+        return result
 
     def get_sim_quota(self, iccid: str) -> dict:
         resp = requests.get(
