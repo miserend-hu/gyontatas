@@ -23,6 +23,7 @@ def _make_service() -> DeviceUpdateService:
         DeviceUpdateRepository(),
         PayloadProcessorFactory(),
         DeviceRepository(),
+        MiserendService(MiserendRepository()),
     )
 
 
@@ -58,27 +59,10 @@ class CoapRelayView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request, device_type):
-        update_service = DeviceUpdateService(
-            DeviceUpdateRepository(),
-            PayloadProcessorFactory(),
-            DeviceRepository(),
-        )
         try:
-            update = update_service.process_coap_update(device_type, request.body)
+            _make_service().process_coap_update(device_type, request.body)
         except Exception:
             logger.exception("CoAP relay processing failed for device_type=%s", device_type)
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-        if device_type == "type1" and update.input_1 is not None:
-            try:
-                MiserendService(MiserendRepository()).report_confession(
-                    update.device,
-                    update.location,
-                    mode=1,
-                    door_status=update.input_1,
-                    leak_status=None,
-                )
-            except Exception:
-                logger.exception("miserend.hu report failed for device %s", update.device.imei)
 
         return Response(status=status.HTTP_204_NO_CONTENT)

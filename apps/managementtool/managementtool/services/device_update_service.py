@@ -6,6 +6,7 @@ from managementtool.models import Device, DeviceUpdate
 from managementtool.processors.factory import PayloadProcessorFactory
 from managementtool.repositories.device_repository import DeviceRepository
 from managementtool.repositories.device_update_repository import DeviceUpdateRepository
+from managementtool.services.miserend_service import MiserendService
 
 logger = logging.getLogger(__name__)
 
@@ -16,10 +17,12 @@ class DeviceUpdateService:
         update_repository: DeviceUpdateRepository,
         processor_factory: PayloadProcessorFactory,
         device_repository: DeviceRepository,
+        miserend_service: MiserendService,
     ):
         self.update_repository = update_repository
         self.processor_factory = processor_factory
         self.device_repository = device_repository
+        self.miserend_service = miserend_service
 
     def process_coap_update(self, device_type: str, raw_payload: bytes) -> DeviceUpdate:
         processor = self.processor_factory.get_processor(device_type)
@@ -47,6 +50,19 @@ class DeviceUpdateService:
         )
         self.update_repository.create(update)
         logger.info("Saved DeviceUpdate for device %s (type=%s)", device.imei, device_type)
+
+        if device_type == "type1" and update.input_1 is not None:
+            try:
+                self.miserend_service.report_confession(
+                    update.device,
+                    update.location,
+                    mode=1,
+                    door_status=data["door_status"],
+                    leak_status=None,
+                )
+            except Exception:
+                logger.exception("miserend.hu report failed for device %s", update.device.imei)
+
         return update
 
     def list_updates_by_device(self, device_id: int) -> QuerySet[DeviceUpdate]:

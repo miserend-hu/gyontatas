@@ -42,8 +42,13 @@ class Type1PayloadProcessor(PayloadProcessor):
             "input_2": input_2,
             "input_3": input_3,
             "confession": input_1 + input_2 + input_3,
+            "door_status": _door_status(input_1, input_2, input_3),
             "timestamp": datetime.fromtimestamp(time_unix, tz=timezone.utc),
         }
+
+
+def _door_status(input_1: int, input_2: int, input_3: int) -> int:
+    return 1 if any(v == 1 for v in (input_1, input_2, input_3)) else 0
 
 
 def _packed_id(data: bytes, start: int) -> str:
