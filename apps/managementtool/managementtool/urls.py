@@ -1,5 +1,6 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
+from django.views.generic import RedirectView
 
 from managementtool.views.root import RootRedirectView
 from managementtool.views.updates import (
@@ -15,6 +16,7 @@ admin.site.index_title = "Management Tool"
 
 urlpatterns = [
     path("", RootRedirectView.as_view()),
+    re_path(r"^admin/core/(?P<rest>.*)$", RedirectView.as_view(url="/admin/managementtool/%(rest)s", permanent=True)),
     path("admin/", admin.site.urls),
     path("api/coap/<str:device_type>/", CoapRelayView.as_view(), name="coap-relay"),
     path(
