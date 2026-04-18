@@ -76,7 +76,7 @@ async def send(host: str, port: int, device_type: str, payload: bytes) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Type1 CoAP device simulator")
-    parser.add_argument("--host", default="localhost")
+    parser.add_argument("--host", default="coap")
     parser.add_argument("--port", type=int, default=5683)
     parser.add_argument("--imei", default="868927081504479")
     parser.add_argument("--imsi", default="901405180500280")

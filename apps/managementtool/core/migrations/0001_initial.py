@@ -17,8 +17,8 @@ class Migration(migrations.Migration):
                 ("miserend_id", models.IntegerField(unique=True)),
             ],
             options={
-                "verbose_name": "Helyszín",
-                "verbose_name_plural": "Helyszínek",
+                "verbose_name": "Location",
+                "verbose_name_plural": "Locations",
             },
         ),
         migrations.CreateModel(
@@ -31,8 +31,8 @@ class Migration(migrations.Migration):
                 ("remaining_volume", models.FloatField(help_text="Fennmaradó adatmennyiség MB-ban")),
             ],
             options={
-                "verbose_name": "SIM kártya",
-                "verbose_name_plural": "SIM kártyák",
+                "verbose_name": "SIM Card",
+                "verbose_name_plural": "SIM Cards",
             },
         ),
         migrations.CreateModel(
@@ -58,8 +58,8 @@ class Migration(migrations.Migration):
                 ),
             ],
             options={
-                "verbose_name": "Eszköz",
-                "verbose_name_plural": "Eszközök",
+                "verbose_name": "Device",
+                "verbose_name_plural": "Devices",
             },
         ),
         migrations.CreateModel(
@@ -105,8 +105,8 @@ class Migration(migrations.Migration):
                 ),
             ],
             options={
-                "verbose_name": "Eszköz frissítés",
-                "verbose_name_plural": "Eszköz frissítések",
+                "verbose_name": "Device Update",
+                "verbose_name_plural": "Device Updates",
                 "ordering": ["-timestamp"],
             },
         ),

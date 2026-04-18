@@ -16,4 +16,4 @@ purge:
 	docker compose down -v
 
 simulate:
-	docker compose run --rm device_simulator python simulator.py $(ARGS)
+	docker compose run --rm --build device_simulator python simulator.py $(ARGS)

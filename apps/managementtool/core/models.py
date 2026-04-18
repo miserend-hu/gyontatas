@@ -6,8 +6,8 @@ class Location(models.Model):
     miserend_id = models.IntegerField(unique=True)
 
     class Meta:
-        verbose_name = "Helyszín"
-        verbose_name_plural = "Helyszínek"
+        verbose_name = "Location"
+        verbose_name_plural = "Locations"
 
     def __str__(self):
         return self.name
@@ -20,8 +20,8 @@ class SIMCard(models.Model):
     remaining_volume = models.FloatField(help_text="Fennmaradó adatmennyiség MB-ban")
 
     class Meta:
-        verbose_name = "SIM kártya"
-        verbose_name_plural = "SIM kártyák"
+        verbose_name = "SIM Card"
+        verbose_name_plural = "SIM Cards"
 
     def __str__(self):
         return self.iccid
@@ -37,8 +37,8 @@ class Device(models.Model):
     )
 
     class Meta:
-        verbose_name = "Eszköz"
-        verbose_name_plural = "Eszközök"
+        verbose_name = "Device"
+        verbose_name_plural = "Devices"
 
     def __str__(self):
         return self.imei
@@ -78,8 +78,8 @@ class DeviceUpdate(models.Model):
 
     class Meta:
         ordering = ["-timestamp"]
-        verbose_name = "Eszköz frissítés"
-        verbose_name_plural = "Eszköz frissítések"
+        verbose_name = "Device Update"
+        verbose_name_plural = "Device Updates"
 
     def __str__(self):
         return f"{self.device} @ {self.timestamp}"
