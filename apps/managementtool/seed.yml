@@ -5,7 +5,7 @@ users:
     is_staff: true
 
 locations:
-  - name: Szent József Jezsuita Templom
+  - name: Szeged - Szent József jezsuita templom
     miserend_id: 1254
 
 sim_cards:
