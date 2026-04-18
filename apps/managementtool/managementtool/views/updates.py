@@ -7,7 +7,6 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from managementtool.models import DeviceUpdate
-from managementtool.processors.factory import PayloadProcessorFactory
 from managementtool.repositories.device_repository import DeviceRepository
 from managementtool.repositories.device_update_repository import DeviceUpdateRepository
 from managementtool.repositories.miserend_repository import MiserendRepository
@@ -21,7 +20,6 @@ logger = logging.getLogger(__name__)
 def _make_service() -> DeviceUpdateService:
     return DeviceUpdateService(
         DeviceUpdateRepository(),
-        PayloadProcessorFactory(),
         DeviceRepository(),
         MiserendService(MiserendRepository()),
     )

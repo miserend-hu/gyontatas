@@ -7,7 +7,6 @@ import aiocoap.resource as resource
 from asgiref.sync import sync_to_async
 from django.core.management.base import BaseCommand
 
-from managementtool.processors.factory import PayloadProcessorFactory
 from managementtool.repositories.device_repository import DeviceRepository
 from managementtool.repositories.device_update_repository import DeviceUpdateRepository
 from managementtool.repositories.miserend_repository import MiserendRepository
@@ -44,7 +43,6 @@ class Command(BaseCommand):
     async def _run(self):
         update_service = DeviceUpdateService(
             DeviceUpdateRepository(),
-            PayloadProcessorFactory(),
             DeviceRepository(),
             MiserendService(MiserendRepository()),
         )
