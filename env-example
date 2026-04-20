@@ -1,2 +1,17 @@
+# Database
+DB_ROOT_PASSWORD=root
+DB_NAME=managementtool
+DB_USER=managementtool
+DB_PASSWORD=managementtool
+
+# Application
+SECRET_KEY=change-me-in-production
+DEBUG=True
+
+# Ports
+APP_PORT=8000
+COAP_PORT=5683
+
+# OneNece OAuth
 ONENECE_CLIENT_ID=
 ONENECE_CLIENT_SECRET=
