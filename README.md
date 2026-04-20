@@ -4,7 +4,18 @@ IoT eszközök állapotának nyomon követése és kezelése helyszínenként, a
 
 Az eszközök CoAP protokollon keresztül küldik az állapotfrissítéseket (gyónások száma, bemenet állapotok, akkumulátor, jelszint). Az adatok MariaDB-ben tárolódnak, és Django Admin felületen kezelhetők.
 
-## Architektúra
+---
+
+## Tartalom
+
+- [Architektúra](#architektúra)
+- [Konfiguráció](#konfiguráció)
+- [Lokális telepítés](#lokális-telepítés)
+- [Szerver telepítés](#szerver-telepítés)
+
+---
+
+# Architektúra
 
 ```
 [IoT eszköz]
@@ -42,21 +53,45 @@ Az eszközök CoAP protokollon keresztül küldik az állapotfrissítéseket (gy
 
 ---
 
-## Lokális telepítés
+# Konfiguráció
 
-### Követelmények
+Az összes beállítás környezeti változókon keresztül adható meg. Az `env-example` fájlt másold `.env`-re és töltsd ki:
+
+```bash
+cp env-example .env
+```
+
+| Változó | Alapértelmezett | Leírás |
+|---|---|---|
+| `DB_ROOT_PASSWORD` | `root` | MariaDB root jelszó |
+| `DB_NAME` | `managementtool` | Adatbázis neve |
+| `DB_USER` | `managementtool` | Adatbázis felhasználó |
+| `DB_PASSWORD` | `managementtool` | Adatbázis jelszó |
+| `SECRET_KEY` | `change-me-in-production` | Django secret key – éles környezetben kötelező átírni |
+| `DEBUG` | `True` | Django debug mód – éles környezetben `False` |
+| `APP_PORT` | `8000` | Django app külső portja |
+| `COAP_PORT` | `5683` | CoAP UDP külső portja |
+| `SCHEDULER_RUN_TIME` | `00:00` | Napi scheduler futási ideje (`HH:MM` formátum) |
+| `ONENECE_CLIENT_ID` | – | 1NCE API client ID |
+| `ONENECE_CLIENT_SECRET` | – | 1NCE API client secret |
+
+---
+
+# Lokális telepítés
+
+## Követelmények
 
 - Docker + Docker Compose
 - `make`
 
-### Indítás
+## Indítás
 
 ```bash
 make dev    # első indítás vagy kódváltozás után
 make start  # gyors újraindítás
 ```
 
-### Adatbázis feltöltése
+## Adatbázis feltöltése
 
 ```bash
 make seed
@@ -64,7 +99,7 @@ make seed
 
 A `seed.yml` fájlban konfigurálható a kezdeti adat (felhasználók, helyszínek, SIM kártyák, eszközök).
 
-### Admin felület
+## Admin felület
 
 ```
 http://localhost:8000
@@ -72,7 +107,7 @@ http://localhost:8000
 
 Alapértelmezett bejelentkezés a seed után: `root` / `root`
 
-### Eszköz konfiguráció
+## Eszköz konfiguráció
 
 Az IoT eszközöket az alábbi CoAP paraméterekkel kell beállítani:
 
@@ -84,20 +119,9 @@ Az IoT eszközöket az alábbi CoAP paraméterekkel kell beállítani:
 | Path      | `/update/type1` vagy `/update/type2`  |
 | Metódus   | `POST`                                |
 
-### 1NCE integráció
+## 1NCE integráció
 
-A SIM kártyák adatai (IMSI, lejárat, fennmaradó adatmennyiség) automatikusan szinkronizálódnak a 1NCE API-ból. A szükséges környezeti változókat az `env-example` alapján kell beállítani:
-
-```bash
-cp env-example .env
-```
-
-Majd töltsd ki a `.env` fájlban:
-
-```
-ONENECE_CLIENT_ID=...
-ONENECE_CLIENT_SECRET=...
-```
+A SIM kártyák adatai (IMSI, lejárat, fennmaradó adatmennyiség) automatikusan szinkronizálódnak a 1NCE API-ból.
 
 Az Admin felületen a SIM kártyák listájáról a **Refresh from 1NCE** gombbal manuálisan is elindítható a szinkronizáció, vagy kézzel:
 
@@ -106,14 +130,14 @@ make shell
 python manage.py sim_card_refresh
 ```
 
-### Ütemezett feladatok
+## Ütemezett feladatok
 
-A `scheduler` szolgáltatás minden éjfélkor automatikusan lefuttatja:
+A `scheduler` szolgáltatás a `SCHEDULER_RUN_TIME`-ban beállított időpontban automatikusan lefuttatja:
 
 - `sim_card_refresh` – SIM kártyák adatainak frissítése 1NCE-ből
 - `device_update_purge` – 1 évnél régebbi DeviceUpdate rekordok törlése
 
-### Makefile parancsok
+## Makefile parancsok
 
 | Parancs               | Leírás                                                                            |
 |-----------------------|-----------------------------------------------------------------------------------|
@@ -128,3 +152,22 @@ A `scheduler` szolgáltatás minden éjfélkor automatikusan lefuttatja:
 | `make lint`           | Futtatja a `ruff` lintert és formátum-ellenőrzést                                 |
 | `make simulate`       | Szimulált eszközüzenetet küld Docker konténerből (`ARGS` paraméterrel)            |
 | `make simulate_local` | Szimulált eszközüzenetet küld a hostról `localhost:5683`-ra (`ARGS` paraméterrel) |
+
+---
+
+# Szerver telepítés
+
+Minden `main` ágra érkező push automatikusan kitelepíti a változásokat a szerverre SSH-n keresztül (`.github/workflows/deploy.yml`).
+
+A workflow belép a szerverre, `git pull`-t futtat, majd újraindítja a Docker konténereket.
+
+**Szükséges GitHub Secrets** (`Settings → Secrets and variables → Actions`):
+
+| Secret | Érték |
+|---|---|
+| `SSH_HOST` | az Azure VM IP-je vagy hostname-je |
+| `SSH_USER` | pl. `azureuser` |
+| `SSH_PRIVATE_KEY` | a privát SSH kulcs tartalma (teljes, `-----BEGIN...`-tól) |
+| `APP_DIR` | a szerveren lévő repo útvonala, pl. `/opt/gyontatas` |
+
+A szerver publikus kulcsát (`~/.ssh/authorized_keys`) fel kell venni az Azure VM-re, ha még nincs ott.
