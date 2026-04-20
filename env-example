@@ -7,6 +7,7 @@ DB_PASSWORD=managementtool
 # Application
 SECRET_KEY=change-me-in-production
 DEBUG=True
+SCHEDULER_RUN_TIME=00:00
 
 # Ports
 APP_PORT=8000
