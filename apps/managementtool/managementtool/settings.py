@@ -6,7 +6,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key-change-in-production")
 DEBUG = os.environ.get("DEBUG", "True") == "True"
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "*").split(",")
-URL_PREFIX = os.environ.get("URL_PREFIX", "").strip("/")
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -75,7 +74,7 @@ TIME_ZONE = "Europe/Budapest"
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = f"/{URL_PREFIX}/static/" if URL_PREFIX else "/static/"
+STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

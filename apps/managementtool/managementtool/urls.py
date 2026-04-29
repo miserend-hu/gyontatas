@@ -1,6 +1,5 @@
-import os
 from django.contrib import admin
-from django.urls import path, re_path, include
+from django.urls import path, re_path
 from django.views.generic import RedirectView
 
 from managementtool.views.root import RootRedirectView
@@ -15,11 +14,7 @@ admin.site.site_header = "Management Tool"
 admin.site.site_title = "Management Tool"
 admin.site.index_title = "Management Tool"
 
-# Get URL prefix from environment
-URL_PREFIX = os.environ.get("URL_PREFIX", "").strip("/")
-
-# Define the app patterns
-app_patterns = [
+urlpatterns = [
     path("", RootRedirectView.as_view()),
     re_path(r"^admin/core/(?P<rest>.*)$", RedirectView.as_view(url="/admin/managementtool/%(rest)s", permanent=True)),
     path("admin/", admin.site.urls),
@@ -40,11 +35,3 @@ app_patterns = [
         name="device-updates-latest",
     ),
 ]
-
-# Apply prefix if set
-if URL_PREFIX:
-    urlpatterns = [
-        path(f"{URL_PREFIX}/", include(app_patterns)),
-    ]
-else:
-    urlpatterns = app_patterns
