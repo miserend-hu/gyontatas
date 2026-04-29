@@ -61,7 +61,7 @@ services:
     restart: unless-stopped
     environment:
       DJANGO_HOST: managementtool
-      DJANGO_PORT: ${APP_PORT}
+      DJANGO_PORT: 8000
     ports:
       - "${COAP_PORT}:5683/udp"
     depends_on:
