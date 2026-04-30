@@ -16,6 +16,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            set -e
             cd ${{ secrets.APP_DIR }}
-            git pull
+            git pull --ff-only
             APP_VERSION=$(git rev-parse --short HEAD) docker compose up --build -d
