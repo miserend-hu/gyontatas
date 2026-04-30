@@ -18,4 +18,4 @@ jobs:
           script: |
             cd ${{ secrets.APP_DIR }}
             git pull
-            docker compose restart
+            APP_VERSION=$(git rev-parse --short HEAD) docker compose up --build -d

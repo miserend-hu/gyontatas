@@ -1,3 +1,5 @@
+import os
+
 from django.contrib import admin
 from django.urls import path, re_path
 from django.views.generic import RedirectView
@@ -10,9 +12,11 @@ from managementtool.views.updates import (
     LocationUpdateListView,
 )
 
-admin.site.site_header = "Management Tool"
+APP_VERSION = os.environ.get("APP_VERSION", "local")
+
+admin.site.site_header = f"Management Tool [Commit {APP_VERSION}]"
 admin.site.site_title = "Management Tool"
-admin.site.index_title = "Management Tool"
+admin.site.index_title = f"Management Tool [Commit {APP_VERSION}]"
 
 urlpatterns = [
     path("", RootRedirectView.as_view()),
