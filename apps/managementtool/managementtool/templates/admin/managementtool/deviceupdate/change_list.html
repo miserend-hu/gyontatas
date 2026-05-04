@@ -1,0 +1,32 @@
+{% extends "admin/change_list.html" %}
+
+{% block content %}
+  <div style="margin: 0 0 1.25rem; padding: 1rem; border: 1px solid #ddd; background: #fffbe6;">
+    <h2 style="margin-top: 0;">Legutóbb fogadott CoAP csomag</h2>
+    <p>
+      Ez a diagnosztika a gyontatas CoAP bridge által legutóbb fogadott CoAP üzenetet mutatja.
+      Csak memóriában tárolódik, konténer-újraindításkor törlődik. Arra való, hogy ellenőrizhető
+      legyen, mit küldött ténylegesen a Dragino eszköz.
+    </p>
+    {% if last_coap_message %}
+      <table style="width: 100%; max-width: 1100px;">
+        <tbody>
+          <tr><th style="text-align:left; width: 180px;">Tárolva</th><td>{{ last_coap_message.stored_at }}</td></tr>
+          <tr><th style="text-align:left;">Bridge fogadta</th><td>{{ last_coap_message.received_at }}</td></tr>
+          <tr><th style="text-align:left;">Távoli cím</th><td>{{ last_coap_message.remote_address }}:{{ last_coap_message.remote_port }}</td></tr>
+          <tr><th style="text-align:left;">CoAP URL</th><td>{{ last_coap_message.url }}</td></tr>
+          <tr><th style="text-align:left;">Metódus</th><td>{{ last_coap_message.method }}</td></tr>
+          <tr><th style="text-align:left;">Payload hossz</th><td>{{ last_coap_message.payload_length }}</td></tr>
+          <tr><th style="text-align:left;">Payload HEX</th><td><code style="word-break: break-all;">{{ last_coap_message.payload_hex }}</code></td></tr>
+        </tbody>
+      </table>
+      <details style="margin-top: 0.75rem;">
+        <summary>Nyers diagnosztikai JSON</summary>
+        <pre style="white-space: pre-wrap; word-break: break-word;">{{ last_coap_message_pretty }}</pre>
+      </details>
+    {% else %}
+      <p>A management konténer indítása óta még nem érkezett CoAP diagnosztikai adat.</p>
+    {% endif %}
+  </div>
+  {{ block.super }}
+{% endblock %}

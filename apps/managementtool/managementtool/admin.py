@@ -1,8 +1,11 @@
+import json
+
 from django.contrib import admin, messages
 from django.db.models import OuterRef, Subquery
 from django.shortcuts import redirect
 from django.urls import path
 
+from managementtool.coap_diagnostics import get_last_coap_message
 from managementtool.models import Device, DeviceUpdate, Location, SIMCard
 from managementtool.repositories.one_nce_repository import OneNCERepository
 from managementtool.services.one_nce_service import OneNCEService
@@ -87,6 +90,16 @@ class DeviceUpdateAdmin(admin.ModelAdmin):
     list_display = ["device", "location", "device_type", "timestamp", "battery", "signal", "confession"]
     list_filter = ["device_type", "location"]
     list_select_related = ["device", "location"]
+    change_list_template = "admin/managementtool/deviceupdate/change_list.html"
+
+    def changelist_view(self, request, extra_context=None):
+        last_message = get_last_coap_message()
+        extra_context = extra_context or {}
+        extra_context["last_coap_message"] = last_message
+        extra_context["last_coap_message_pretty"] = (
+            json.dumps(last_message, indent=2, ensure_ascii=False) if last_message else ""
+        )
+        return super().changelist_view(request, extra_context=extra_context)
 
     def get_readonly_fields(self, request, obj=None):
         return [f.name for f in DeviceUpdate._meta.fields]

@@ -4,6 +4,7 @@ from django.contrib import admin
 from django.urls import path, re_path
 from django.views.generic import RedirectView
 
+from managementtool.views.coap_diagnostics import last_coap_message_view
 from managementtool.views.root import RootRedirectView
 from managementtool.views.updates import (
     CoapRelayView,
@@ -22,6 +23,7 @@ urlpatterns = [
     path("", RootRedirectView.as_view()),
     re_path(r"^admin/core/(?P<rest>.*)$", RedirectView.as_view(url="/admin/managementtool/%(rest)s", permanent=True)),
     path("admin/", admin.site.urls),
+    path("api/internal/last-coap/", last_coap_message_view, name="last-coap-message"),
     path("api/coap/<str:device_type>/", CoapRelayView.as_view(), name="coap-relay"),
     path(
         "api/locations/<int:location_id>/updates/",
