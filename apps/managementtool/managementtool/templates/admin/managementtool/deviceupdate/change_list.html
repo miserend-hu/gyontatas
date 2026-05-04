@@ -16,6 +16,12 @@
           <tr><th style="text-align:left;">Távoli cím</th><td>{{ last_coap_message.remote_address }}:{{ last_coap_message.remote_port }}</td></tr>
           <tr><th style="text-align:left;">CoAP URL</th><td>{{ last_coap_message.url }}</td></tr>
           <tr><th style="text-align:left;">Metódus</th><td>{{ last_coap_message.method }}</td></tr>
+          <tr><th style="text-align:left;">CoAP üzenettípus</th><td>{{ last_coap_message.coap_type|default:"-" }}</td></tr>
+          <tr><th style="text-align:left;">Confirmable</th><td>{{ last_coap_message.confirmable|yesno:"igen,nem,-" }}</td></tr>
+          <tr><th style="text-align:left;">ACK</th><td>{{ last_coap_message.ack|yesno:"igen,nem,-" }}</td></tr>
+          <tr><th style="text-align:left;">Reset</th><td>{{ last_coap_message.reset|yesno:"igen,nem,-" }}</td></tr>
+          <tr><th style="text-align:left;">Message ID</th><td>{{ last_coap_message.message_id|default:"-" }}</td></tr>
+          <tr><th style="text-align:left;">Token HEX</th><td><code>{{ last_coap_message.token_hex|default:"-" }}</code></td></tr>
           <tr><th style="text-align:left;">Payload hossz</th><td>{{ last_coap_message.payload_length }}</td></tr>
           <tr><th style="text-align:left;">Payload HEX</th><td><code style="word-break: break-all;">{{ last_coap_message.payload_hex }}</code></td></tr>
         </tbody>

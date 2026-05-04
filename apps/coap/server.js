@@ -7,6 +7,22 @@ const VALID_DEVICE_TYPES = ['type1', 'type2']
 
 const server = coap.createServer({ type: 'udp4' })
 
+function getPacketType(packet) {
+  if (!packet) {
+    return null
+  }
+  if (packet.ack) {
+    return 'ACK'
+  }
+  if (packet.reset) {
+    return 'RST'
+  }
+  if (packet.confirmable) {
+    return 'CON'
+  }
+  return 'NON'
+}
+
 function postDiagnostic(message) {
   const body = JSON.stringify(message)
   const req = http.request(
@@ -39,11 +55,19 @@ function postDiagnostic(message) {
 
 server.on('request', (req, res) => {
   const payload = req.payload || Buffer.alloc(0)
+  const packet = req._packet || {}
+  const token = packet.token || Buffer.alloc(0)
 
   postDiagnostic({
     received_at: new Date().toISOString(),
     url: req.url,
     method: req.method,
+    coap_type: getPacketType(packet),
+    confirmable: packet.confirmable === true,
+    ack: packet.ack === true,
+    reset: packet.reset === true,
+    message_id: packet.messageId ?? null,
+    token_hex: token.toString('hex'),
     payload_hex: payload.toString('hex'),
     payload_length: payload.length,
     remote_address: req.rsinfo?.address || null,
