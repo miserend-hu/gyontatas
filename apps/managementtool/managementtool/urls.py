@@ -14,9 +14,9 @@ from managementtool.views.updates import (
 
 APP_VERSION = os.environ.get("APP_VERSION", "local")
 
-admin.site.site_header = f"Management Tool [Commit {APP_VERSION}]"
+admin.site.site_header = f"Management Tool [Commit: {APP_VERSION}]"
 admin.site.site_title = "Management Tool"
-admin.site.index_title = f"Management Tool [Commit {APP_VERSION}]"
+admin.site.index_title = f"Management Tool [Commit: {APP_VERSION}]"
 
 urlpatterns = [
     path("", RootRedirectView.as_view()),
